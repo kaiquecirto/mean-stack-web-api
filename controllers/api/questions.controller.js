@@ -5,6 +5,7 @@ var questionService = require('services/question.service');
 
 router.get('/getAll', getAll);
 router.post('/register', createQuestion);
+router.delete('/:_id', deleteQuestion);
 
 module.exports = router;
 
@@ -20,6 +21,16 @@ function getAll(req, res) {
 
 function createQuestion(req, res) {
     questionService.create(req.body)
+        .then(function () {
+            res.sendStatus(200);
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
+}
+
+function deleteQuestion(req, res) {
+    questionService.delete(req.params._id)
         .then(function () {
             res.sendStatus(200);
         })
