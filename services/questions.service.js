@@ -9,4 +9,18 @@ db.bind('questions');
 
 var service = {};
 
+service.getAll = getAll;
+
 module.exports = service;
+
+function getAll() {
+    var deferred = Q.defer();
+
+    db.questions.find({}).toArray(function (err, questions) {
+        if (err) deferred.reject(err.name + ': ' + err.message);
+
+        deferred.resolve(questions);
+    });
+
+    return deferred.promise;
+}
